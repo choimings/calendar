@@ -99,6 +99,17 @@ class _CalendarPageState extends State<CalendarPage> {
                   onTap: () {
                     setState(() {
                       if (_selectedDay != null) {
+                        // 오늘 날짜 이후에는 출석 체크 불가
+                        if (_selectedDay!.isAfter(DateTime.now())) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('오늘 날짜 이전만 출석 체크가 가능합니다.'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                          return; // 여기서 함수 종료
+                        }
+
                         // 출석 체크 토글 (체크/미체크)
                         if (_checkedDays.contains(_selectedDay)) {
                           _checkedDays.remove(_selectedDay);
@@ -116,20 +127,22 @@ class _CalendarPageState extends State<CalendarPage> {
                           ? const Color(0xFFB0F4E6) // 출석 체크 시 배경색 적용
                           : Colors.transparent, // 미체크 상태 배경색 투명
                       border: Border.all(
-                        color: Colors.grey.withOpacity(0.5), // 테두리 색상 (연한 회색)
+                        color: _selectedDay != null && _checkedDays.contains(_selectedDay)
+                            ? Colors.transparent // 체크 상태는 테두리 제거
+                            : Colors.grey.withOpacity(0.5), // 미체크 상태 테두리 색상 (연한 회색)
                         width: 2.0, // 테두리 두께
                       ),
                       borderRadius: BorderRadius.circular(10), // 모서리 둥글기
                     ),
                     child: Center(
-                      child: _selectedDay != null && _checkedDays.contains(_selectedDay)
-                          ? const Icon(Icons.check, color: Colors.black) // 체크 상태 아이콘
-                          : const SizedBox.shrink(), // 미체크 상태 빈 위젯
+                      child: Icon(
+                        _selectedDay != null && _checkedDays.contains(_selectedDay)
+                            ? Icons.check // 체크 상태 아이콘
+                            : null, // 미체크 상태 아이콘 없음
+                        color: Colors.black, // 체크 상태 아이콘 색상
+                      ),
                     ),
                   ),
-
-
-
                 ),
               ],
             ),
