@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart'; // 로케일 초기화 필요
+import 'memo_page.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -172,7 +173,13 @@ class _CalendarPageState extends State<CalendarPage> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
-        onPressed: () {},
+        onPressed: () {
+          // 메모 페이지로 이동
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MemoPage()),
+          );
+        },
         child: const Icon(Icons.add, color: Colors.white),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
