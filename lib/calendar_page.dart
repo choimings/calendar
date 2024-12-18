@@ -177,7 +177,8 @@ class _CalendarPageState extends State<CalendarPage> {
           // 메모 페이지로 이동
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const MemoPage()),
+            MaterialPageRoute(builder: (context) => MemoPage(selectedDate: DateTime.now()),
+            ),
           );
         },
         child: const Icon(Icons.add, color: Colors.white),
