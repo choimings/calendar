@@ -10,6 +10,7 @@ class CalendarPage extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPage> {
   DateTime _focusedDay = DateTime.now(); // 현재 날짜
   DateTime? _selectedDay; // 선택된 날짜
+  Set<DateTime> _checkedDays = {}; // 출석 체크된 날짜들
 
   @override
   void initState() {
@@ -47,14 +48,36 @@ class _CalendarPageState extends State<CalendarPage> {
             },
             calendarStyle: const CalendarStyle(
               todayDecoration: BoxDecoration(
-                color: Colors.grey,
+                color: Colors.grey, // 오늘 날짜 스타일
                 shape: BoxShape.circle,
               ),
               selectedDecoration: BoxDecoration(
-                color: Colors.black,
+                color: Colors.black, // 선택된 날짜 스타일
                 shape: BoxShape.circle,
               ),
-              defaultTextStyle: TextStyle(color: Colors.black),
+            ),
+            calendarBuilders: CalendarBuilders(
+              defaultBuilder: (context, day, focusedDay) {
+                if (_checkedDays.any((checkedDay) => isSameDay(checkedDay, day))) {
+                  return Center(
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFB0F4E6), // 출석 체크 색상
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${day.day}',
+                          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                return null;
+              },
             ),
             headerStyle: const HeaderStyle(
               formatButtonVisible: false, // 월/주 선택 버튼 숨김
@@ -72,16 +95,46 @@ class _CalendarPageState extends State<CalendarPage> {
                 const SizedBox(width: 10),
                 const Text('출석 체크', style: TextStyle(fontSize: 18)),
                 const Spacer(),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(5),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      if (_selectedDay != null) {
+                        // 출석 체크 토글 (체크/미체크)
+                        if (_checkedDays.contains(_selectedDay)) {
+                          _checkedDays.remove(_selectedDay);
+                        } else {
+                          _checkedDays.add(_selectedDay!);
+                        }
+                      }
+                    });
+                  },
+                  child: Container(
+                    width: 40, // 크기 고정
+                    height: 40, // 크기 고정
+                    decoration: BoxDecoration(
+                      color: _selectedDay != null && _checkedDays.contains(_selectedDay)
+                          ? const Color(0xFFB0F4E6) // 출석 체크 시 배경색 적용
+                          : Colors.transparent, // 미체크 상태 배경색 투명
+                      border: Border.all(
+                        color: Colors.grey.withOpacity(0.5), // 테두리 색상 (연한 회색)
+                        width: 2.0, // 테두리 두께
+                      ),
+                      borderRadius: BorderRadius.circular(10), // 모서리 둥글기
+                    ),
+                    child: Center(
+                      child: _selectedDay != null && _checkedDays.contains(_selectedDay)
+                          ? const Icon(Icons.check, color: Colors.black) // 체크 상태 아이콘
+                          : const SizedBox.shrink(), // 미체크 상태 빈 위젯
+                    ),
                   ),
-                  child: const Icon(Icons.check, color: Colors.white),
+
+
+
                 ),
               ],
             ),
           ),
+
           const SizedBox(height: 30),
         ],
       ),
