@@ -88,6 +88,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
       // 하단 네비게이션 바
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 1,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -108,7 +109,7 @@ class _CalendarPageState extends State<CalendarPage> {
         onPressed: () {},
         child: const Icon(Icons.add, color: Colors.white),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
