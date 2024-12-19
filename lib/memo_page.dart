@@ -35,7 +35,7 @@ class _MemoPageState extends State<MemoPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${widget.selectedDate.year}년 ${widget.selectedDate.month}월 ${widget.selectedDate.day}일',
+              '${widget.selectedDate.year}년 ${widget.selectedDate.month}월 ${widget.selectedDate.day}일 ${_getWeekday(widget.selectedDate.weekday)}요일',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
@@ -236,5 +236,10 @@ class _MemoPageState extends State<MemoPage> {
     print('설정: $_alarmEnabled');
     print('반복 주기: $_alarmFrequency');
     print('메모: ${_memoController.text}');
+  }
+
+  String _getWeekday(int weekday) {
+    const days = ['월', '화', '수', '목', '금', '토', '일'];
+    return days[weekday - 1]; // weekday는 1(월요일)부터 시작
   }
 }
