@@ -170,10 +170,14 @@ class _CalendarPageState extends State<CalendarPage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () {
-          // 메모 페이지로 이동
+          // 선택된 날짜가 null일 경우 오늘 날짜를 기본값으로 사용
+          final DateTime memoDate = _selectedDay ?? DateTime.now();
+
+          // 메모 페이지로 이동하면서 선택된 날짜 전달
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => MemoPage(selectedDate: DateTime.now()),
+            MaterialPageRoute(
+              builder: (context) => MemoPage(selectedDate: memoDate),
             ),
           );
         },
