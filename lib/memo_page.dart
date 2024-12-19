@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class MemoPage extends StatefulWidget {
   final DateTime selectedDate;
@@ -38,11 +39,33 @@ class _MemoPageState extends State<MemoPage> {
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            const Text('알림 이름'),
+            Text(
+              '알림 이름',
+              style: TextStyle(
+                fontWeight: FontWeight.bold, // 글자 굵게
+                fontSize: 16.0, // 글자 크기
+              ),
+            ),
+            SizedBox(height: 12.0), // 텍스트와 텍스트 필드 사이 간격
             TextField(
               decoration: InputDecoration(
                 hintText: '알림 이름을 입력하세요.',
-                border: OutlineInputBorder(),
+                hintStyle: TextStyle(
+                  color: Color(0xFFCCCCCC), // 힌트 텍스트 색상
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.0), // 둥근 테두리
+                  borderSide: BorderSide(
+                    color: Color(0xFFCCCCCC), // 테두리 색상
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0xFFCCCCCC), // 포커스된 상태의 테두리 색상
+                    width: 2.0, // 테두리 두께
+                  ),
+                ),
+                border: OutlineInputBorder(), // 기본 테두리 스타일
               ),
               onChanged: (value) {
                 setState(() {
@@ -50,13 +73,23 @@ class _MemoPageState extends State<MemoPage> {
                 });
               },
             ),
+
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('알림 설정'),
-                Switch(
+                Text(
+                  '알림 설정',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold, // 글자 굵게
+                    fontSize: 16.0, // 글자 크기
+                  ),
+                ),
+                CupertinoSwitch(
                   value: _alarmEnabled,
+                  activeTrackColor: CupertinoColors.activeGreen, // 활성 상태 트랙 색상
+                  thumbColor: CupertinoColors.white, // 스위치 동그라미(Thumb)의 색상
+                  trackColor: CupertinoColors.inactiveGray, // 비활성 상태 트랙 색상
                   onChanged: (value) {
                     setState(() {
                       _alarmEnabled = value;
@@ -65,22 +98,61 @@ class _MemoPageState extends State<MemoPage> {
                 ),
               ],
             ),
+            const SizedBox(height: 20), // 스위치와 설정 요소 간 간격 설정
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildFrequencyButton('매일'),
-                _buildFrequencyButton('매주'),
-                _buildFrequencyButton('매월'),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6.0), // 좌우 여백
+                    child: _buildFrequencyButton('매일'),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6.0), // 좌우 여백
+                    child: _buildFrequencyButton('매주'),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6.0), // 좌우 여백
+                    child: _buildFrequencyButton('매월'),
+                  ),
+                ),
               ],
             ),
+
             const SizedBox(height: 20),
-            const Text('알림 메모'),
+            Text(
+              '알림 메모',
+              style: TextStyle(
+                fontWeight: FontWeight.bold, // 글자 굵게
+                fontSize: 16.0, // 글자 크기
+              ),
+            ),
+            SizedBox(height: 12.0), // 텍스트와 텍스트 필드 사이 간격
             TextField(
               controller: _memoController,
               maxLines: 5,
               decoration: InputDecoration(
                 hintText: '메모를 입력하세요.',
-                border: OutlineInputBorder(),
+                hintStyle: TextStyle(
+                  color: Color(0xFFCCCCCC), // 힌트 텍스트 색상
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.0), // 둥근 테두리
+                  borderSide: BorderSide(
+                    color: Color(0xFFCCCCCC), // 테두리 색상
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0xFFCCCCCC), // 포커스된 상태의 테두리 색상
+                    width: 2.0, // 테두리 두께
+                  ),
+                ),
+                border: OutlineInputBorder(), // 기본 테두리 스타일
               ),
             ),
             const SizedBox(height: 20),
@@ -89,21 +161,31 @@ class _MemoPageState extends State<MemoPage> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey,
+                    backgroundColor: Colors.white, // 버튼 배경색
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0), // 둥근 모서리
+                      side: const BorderSide(color: Color(0xFFCCCCCC)), // 테두리 색상
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 12.0), // 버튼 내부 패딩
                   ),
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text('취소'),
+                  child: const Text('취소', style: TextStyle(color: Colors.black)),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
+                    backgroundColor: Colors.white, // 버튼 배경색
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0), // 둥근 모서리
+                      side: const BorderSide(color: Color(0xFFCCCCCC)), // 테두리 색상
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 12.0), // 버튼 내부 패딩
                   ),
                   onPressed: () {
                     _saveMemo();
                   },
-                  child: const Text('저장', style: TextStyle(color: Colors.white)),
+                  child: const Text('저장', style: TextStyle(color: Colors.black)),
                 ),
               ],
             ),
@@ -127,12 +209,16 @@ class _MemoPageState extends State<MemoPage> {
     );
   }
 
+  // 알람 설정
   Widget _buildFrequencyButton(String label) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: _alarmFrequency == label ? Colors.grey : Colors.white,
-        foregroundColor: _alarmFrequency == label ? Colors.white : Colors.black,
-        side: const BorderSide(color: Colors.black),
+        backgroundColor: _alarmFrequency == label ? Color(0xFFB0F4E6) : Colors.white,
+        foregroundColor: _alarmFrequency == label ? Colors.black : Colors.black,
+        // side: const BorderSide(color: Colors.black), // 테두리 색상
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0), // 라디우스 설정
+        ),
       ),
       onPressed: () {
         setState(() {
