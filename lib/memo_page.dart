@@ -18,6 +18,7 @@ class _MemoPageState extends State<MemoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white, // 배경색 하얀색으로 설정
       appBar: AppBar(
         title: const Text('상단 노치 영역'),
         leading: IconButton(
@@ -109,15 +110,19 @@ class _MemoPageState extends State<MemoPage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: const [
-            Text('홈'),
-            Text('달력'),
-            Text('마이페이지'),
-          ],
-        ),
+      // 하단 네비게이션 바
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed, // 모든 아이템 간 동일한 간격 유지
+        currentIndex: 1, // 현재 화면은 달력
+        backgroundColor: Colors.white, // 네비게이션 바 배경색 설정
+        selectedItemColor: Colors.black, // 선택된 아이콘과 텍스트 색상
+        unselectedItemColor: Colors.grey, // 선택되지 않은 아이콘과 텍스트 색상
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: '달력'),
+          BottomNavigationBarItem(icon: Icon(Icons.nature), label: '내 나무'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: '마이페이지'),
+        ],
       ),
     );
   }

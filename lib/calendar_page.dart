@@ -100,15 +100,15 @@ class _CalendarPageState extends State<CalendarPage> {
                   onTap: () {
                     setState(() {
                       if (_selectedDay != null) {
-                        // 오늘 날짜 이후에는 출석 체크 불가
-                        if (_selectedDay!.isAfter(DateTime.now())) {
+                        // 선택한 날짜가 오늘인지 확인
+                        if (!isSameDay(_selectedDay, DateTime.now())) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('오늘 날짜 이전만 출석 체크가 가능합니다.'),
+                              content: Text('오늘만 출석 체크가 가능합니다.'),
                               duration: Duration(seconds: 2),
                             ),
                           );
-                          return; // 여기서 함수 종료
+                          return; // 함수 종료
                         }
 
                         // 출석 체크 토글 (체크/미체크)
@@ -155,20 +155,16 @@ class _CalendarPageState extends State<CalendarPage> {
 
       // 하단 네비게이션 바
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 1,
+        type: BottomNavigationBarType.fixed, // 모든 아이템 간 동일한 간격 유지
+        currentIndex: 1, // 현재 화면은 달력
+        backgroundColor: Colors.white, // 네비게이션 바 배경색 설정
+        selectedItemColor: Colors.black, // 선택된 아이콘과 텍스트 색상
+        unselectedItemColor: Colors.grey, // 선택되지 않은 아이콘과 텍스트 색상
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '홈',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month),
-            label: '달력',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: '마이페이지',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: '달력'),
+          BottomNavigationBarItem(icon: Icon(Icons.nature), label: '내 나무'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: '마이페이지'),
         ],
       ),
       floatingActionButton: FloatingActionButton(
